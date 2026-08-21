@@ -2,8 +2,6 @@
 
 Launches a vLLM server configured for hidden states extraction, used for online training or offline hidden states generation.
 
-`launch_vllm.py` automatically passes `--disable-access-log-for-endpoints /v1/chat/completions/render` to vLLM. That keeps the per-render `200 OK` access-log lines from flooding the terminal while `prepare_data.py` renders conversations.
-
 ## Basic Usage
 
 ```bash

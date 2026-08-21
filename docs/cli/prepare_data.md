@@ -56,8 +56,6 @@ python scripts/prepare_data.py \
 
 - **`--render-endpoint`** (str, default: `None`) Base URL of the target model's running vLLM server (e.g. `http://localhost:8000`). The instance launched for hidden-state extraction ([launch_vllm.py](launch_vllm.md)) serves this too, so no second server is needed. Pass the base URL only: `/v1/chat/completions/render` is appended to it, so the `/v1`-suffixed form that [data_generation_offline.py](data_generation_offline.md) `--endpoint` takes will 404. Required for natural-language conversations; omit it when every input already contains `input_ids` and `loss_mask`.
 
-  If you launch the vLLM server manually instead of through `launch_vllm.py`, add `--disable-access-log-for-endpoints /v1/chat/completions/render` (or `--disable-uvicorn-access-log`) to the server command so per-render `200 OK` lines don't overwhelm the progress bar.
-
 - **`--minimum-valid-tokens`** (int, default: `None`) Drop samples whose loss mask contains fewer than this many trainable tokens.
 
 ### Output Arguments

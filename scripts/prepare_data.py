@@ -44,6 +44,10 @@ from speculators.data_generation.preprocessing import (
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
+# httpx logs every render request at INFO ("HTTP Request: ... 200 OK"), which
+# floods the terminal and hides the progress bar. Keep errors visible, but
+# silence the per-request success lines.
+logging.getLogger("httpx").setLevel(logging.WARNING)
 log = PipelineLogger(__name__)
 
 

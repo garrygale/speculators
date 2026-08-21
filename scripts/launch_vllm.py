@@ -4,6 +4,8 @@ import os
 import sys
 import warnings
 
+RENDER_ENDPOINT_PATH = "/v1/chat/completions/render"
+
 try:
     from hs_connectors import HiddenStatesBackend
 
@@ -105,6 +107,16 @@ def main():
     args, vllm_args = parse_args()
     if "--" in vllm_args:
         vllm_args.remove("--")
+
+    # prepare_data.py renders every conversation/turn through this endpoint, and
+    # vLLM's per-request "200 OK" access logs drown out the progress bar. Keep
+    # that endpoint quiet unless the user already configured access logging.
+    if not any(
+        arg.startswith("--disable-access-log-for-endpoints")
+        or arg == "--disable-uvicorn-access-log"
+        for arg in vllm_args
+    ):
+        vllm_args.extend(["--disable-access-log-for-endpoints", RENDER_ENDPOINT_PATH])
 
     from transformers import AutoConfig  # noqa: PLC0415
 
